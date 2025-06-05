@@ -19,6 +19,7 @@ import sys
 from subprocess import CalledProcessError
 
 from rich.console import Console
+from security import safe_command
 
 
 SUPPORTED_COMMANDS = ["sft", "dpo", "chat"]
@@ -54,8 +55,7 @@ def main():
         """
 
     try:
-        subprocess.run(
-            command.split(),
+        safe_command.run(subprocess.run, command.split(),
             text=True,
             check=True,
             encoding="utf-8",
