@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import random
 import warnings
 from collections import deque
 from dataclasses import dataclass
@@ -41,6 +40,7 @@ from transformers.trainer_utils import has_length
 
 from ..import_utils import is_peft_available, is_unsloth_available, is_xpu_available
 from ..trainer.model_config import ModelConfig
+import secrets
 
 
 if is_peft_available():
@@ -523,7 +523,7 @@ class ConstantLengthDataset(IterableDataset):
                 if len(input_ids) == self.seq_length:
                     examples.append(input_ids)
             if self.shuffle:
-                random.shuffle(examples)
+                secrets.SystemRandom().shuffle(examples)
             for example in examples:
                 self.current_size += 1
                 yield {

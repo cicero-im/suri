@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import inspect
-import random
 import warnings
 from collections import defaultdict
 from contextlib import contextmanager, nullcontext
@@ -52,6 +51,7 @@ from .utils import (
     peft_module_casting_to_bf16,
     trl_sanitze_kwargs_for_tagging,
 )
+import secrets
 
 
 if is_peft_available():
@@ -1363,7 +1363,7 @@ class DPOTrainer(Trainer):
         if self.generate_during_eval:
             # Generate random indices within the range of the total number of samples
             num_samples = len(dataloader.dataset)
-            random_indices = random.sample(range(num_samples), k=self.args.eval_batch_size)
+            random_indices = secrets.SystemRandom().sample(range(num_samples), k=self.args.eval_batch_size)
 
             # Use dataloader.dataset.select to get the random batch without iterating over the DataLoader
             random_batch_dataset = dataloader.dataset.select(random_indices)

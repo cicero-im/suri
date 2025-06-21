@@ -18,13 +18,13 @@ Supervised fine-tuning script for decoder language models.
 """
 
 import logging
-import random
 import sys
 
 import datasets
 import torch
 import transformers
 from transformers import AutoModelForCausalLM, set_seed
+import secrets
 
 # Import the modified alignment and trl libraries
 sys.path.append("../lib/")
@@ -175,7 +175,7 @@ def main():
     with training_args.main_process_first(
         desc="Log a few random samples from the processed training set"
     ):
-        for index in random.sample(range(len(raw_datasets["train"])), 3):
+        for index in secrets.SystemRandom().sample(range(len(raw_datasets["train"])), 3):
             logger.info(
                 f"Sample {index} of the processed training set:\n\n{raw_datasets['train'][index]['text']}"
             )
